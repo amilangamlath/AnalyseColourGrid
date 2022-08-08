@@ -1,15 +1,15 @@
 public class AnalyzeColourGrid {
 
     static final int hight = 10;
-    static final int m = 10; // width
+    static final int width = 10; // width
 
-    static int COUNT;
+    static int count;
 
-    static final int visitedNode[][] = new int [hight][m];
-    static final int result[][] = new int [hight][m];
+    static final int visitedNode[][] = new int [hight][width];
+    static final int result[][] = new int [hight][width];
 
-    static boolean is_valid(int x, int y, String key, String input[][]) {
-        if (x < hight && y < m &&
+    static boolean isValidCheck(int x, int y, String key, String input[][]) {
+        if (x < hight && y < width &&
                 x >= 0 && y >= 0) {
             if (visitedNode[x][y] == 0 &&
                     input[x][y] == key) {
@@ -19,16 +19,17 @@ public class AnalyzeColourGrid {
                 return false;
             }
         }
-        else
+        else {
             return false;
+        }
     }
 
-    static void printContinuousColorBlock(int res){
-        System.out.println ("the largest continuous color block occurance:" + res );
+    static void printContinuousColorBlock(int occurance){
+        System.out.println ("the largest continuous color block occurance:" + occurance );
 
         for (int i = 0; i < hight; i++)
         {
-            for (int j = 0; j < m; j++)
+            for (int j = 0; j < width; j++)
             {
                 if (result[i][j] != 0)
                     System.out.print("* ");
@@ -41,14 +42,14 @@ public class AnalyzeColourGrid {
 
     static void resetVisitedNode() {
         for (int i = 0; i < hight; i++)
-            for (int j = 0; j < m; j++)
+            for (int j = 0; j < width; j++)
                 visitedNode[i][j] = 0;
     }
 
     static void resetGraphSearchResult(String key, String input[][])  {
         for (int i = 0; i < hight; i++)
         {
-            for (int j = 0; j < m; j++)
+            for (int j = 0; j < width; j++)
             {
                 if (visitedNode[i][j] == 1 &&
                         input[i][j] == key)
@@ -64,13 +65,13 @@ public class AnalyzeColourGrid {
             return;
 
         visitedNode[i][j] = 1;
-        COUNT++;
+        count++;
 
         int x_move[] = { 0, 0, 1, -1 };
         int y_move[] = { 1, -1, 0, 0 };
 
         for (int u = 0; u < 4; u++)
-            if ((is_valid(i + y_move[u],
+            if ((isValidCheck(i + y_move[u],
                     j + x_move[u], x, input)) == true)
                 searchGraph(x, y, i + y_move[u],
                         j + x_move[u], input);
@@ -78,38 +79,38 @@ public class AnalyzeColourGrid {
 
     public static String findLargestColourBlock(String input[][]){
 
-        int current_max = Integer.MIN_VALUE;
+        int currentMax = Integer.MIN_VALUE;
 
         for (int i = 0; i < hight; i++) {
-            for (int j = 0; j < m; j++) {
+            for (int j = 0; j < width; j++) {
                 resetVisitedNode();
-                COUNT = 0;
+                count = 0;
 
-                if (j + 1 < m) {
+                if (j + 1 < width) {
                     searchGraph(input[i][j], input[i][j + 1],
                             i, j, input);
                 }
 
-                if (COUNT >= current_max)  {
-                    current_max = COUNT;
+                if (count >= currentMax)  {
+                    currentMax = count;
                     resetGraphSearchResult(input[i][j], input);
                 }
                 resetVisitedNode();
-                COUNT = 0;
+                count = 0;
 
                 if (i + 1 < hight) {
                     searchGraph(input[i][j],
                             input[i + 1][j], i, j, input);
                 }
 
-                if (COUNT >= current_max){
-                    current_max = COUNT;
+                if (count >= currentMax){
+                    currentMax = count;
                     resetGraphSearchResult(input[i][j], input);
                 }
             }
         }
 
-        printContinuousColorBlock(current_max);
+        printContinuousColorBlock(currentMax);
 
         return null;
     }
