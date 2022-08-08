@@ -67,14 +67,14 @@ public class AnalyzeColourGrid {
         visitedNode[i][j] = 1;
         count++;
 
-        int x_move[] = { 0, 0, 1, -1 };
-        int y_move[] = { 1, -1, 0, 0 };
+        int xAxixMove[] = { 0, 0, 1, -1 };
+        int yAxixMove[] = { 1, -1, 0, 0 };
 
         for (int u = 0; u < 4; u++)
-            if ((isValidCheck(i + y_move[u],
-                    j + x_move[u], x, input)) == true)
-                searchGraph(x, y, i + y_move[u],
-                        j + x_move[u], input);
+            if ((isValidCheck(i + yAxixMove[u],
+                    j + xAxixMove[u], x, input)) == true)
+                searchGraph(x, y, i + yAxixMove[u],
+                        j + xAxixMove[u], input);
     }
 
     public static String findLargestColourBlock(String input[][]){
